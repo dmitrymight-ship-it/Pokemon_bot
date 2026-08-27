@@ -22,7 +22,14 @@ def start(message):
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
 
-
+@bot.message_handler(commands=['feed'])
+def send_feed(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pokemon = Pokemon.pokemons[message.from_user.username]
+        responce = pokemon.feed()
+        bot.send_message(message.chat.id, responce)
+    else:
+        bot.send_message(message.chat.id, "У вас нет покемона")
 @bot.message_handler(commands=['attack'])
 def attack_pok(message):
     if message.reply_to_message:
